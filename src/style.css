@@ -1,0 +1,16 @@
+body {
+    display: grid;
+    grid-template-rows: 0.5fr 7fr;
+    height: 100vh;
+    margin: 0;
+}
+
+.main {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+}
+
+.nav {
+    display: grid;
+    grid-template-columns: 1fr 3fr 0.5fr;
+}
