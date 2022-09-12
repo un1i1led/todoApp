@@ -17,5 +17,33 @@ body {
 
 .sidebar {
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr 3fr;
+    grid-template-rows: 2fr 1fr 1fr 3fr;
+}
+
+.sdbar-gp-1 {
+    display: flex;
+    flex-direction: column;
+}
+
+.inbox-sdbar > p::before {
+    content: url(../src/img/icon.png);
+    position: relative;
+    top: 5.5px;
+}
+
+.form-popup {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+}
+
+.form-container {
+    max-width: 300px;
+    padding: 10px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
 }
