@@ -17,6 +17,9 @@
     <div class="main">
         <div class="sidebar">
             <div class="sdbar-gp-1">
+                <div class="inbox-sdbar">
+                    <p>inbox</p>
+                </div>
                 <div class="today-sdbar">
                     <p>Today</p>
                 </div>
@@ -35,7 +38,45 @@
                 </div>
             </div>
         </div>
-        <div class="content"></div>
+        <div class="content">
+            <div class="page-name">
+                <h2>Inbox</h1>
+            </div>
+            <div class="todoSection">
+                <div class="todos"></div>
+                <div class="add-todo">
+                    <div class="form-popup" id="form-pop">
+                        <form action="" class="form-container">
+                            <h2>Add TODO</h1>
+                            <input type="text" placeholder="Task name">
+                            <textarea name="description" id="desc-area" cols="30" rows="10" placeholder="Description"></textarea>
+                            <label for="dueDate">Due date</label>
+                            <input type="date">
+                            <div class="radios">
+                                <h3>Priority</h2>
+                                <div class="high-div">
+                                    <input type="radio" name="high" id="high-priority">
+                                    <label for="high">High</label>
+                                </div>
+                                <div class="mid-div">
+                                    <input type="radio" name="medium" id="medium-priority">
+                                    <label for="medium">Medium</label>
+                                </div>
+                                <div class="low-div">
+                                    <input type="radio" name="low" id="low-priority">
+                                    <label for="low">Low</label>
+                                </div>
+                            </div>
+                            <div class="add-buttons">
+                                <button type="button" id="cancel-btn" >Cancel</button>
+                                <button type="button" id="add-form-btn">Add task</button>
+                            </div>
+                        </form>
+                    </div>
+                    <button id="add-todo-btn">Add</button>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
