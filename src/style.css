@@ -47,3 +47,27 @@ body {
     display: flex;
     flex-direction: column;
 }
+
+.low-div {
+    padding-bottom: 10px;
+}
+
+#desc-area {
+    resize: none;
+}
+
+.icon {
+    width: 30px;
+    height: 30px;  
+}
+
+.div-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.todo-top-bar {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
