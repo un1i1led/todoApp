@@ -16,8 +16,9 @@ body {
 }
 
 .sidebar {
-    display: grid;
-    grid-template-rows: 2fr 1fr 1fr 3fr;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
 
 .sdbar-gp-1 {
