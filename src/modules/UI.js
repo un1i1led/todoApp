@@ -25,7 +25,8 @@ const makeTodoItem = () => {
 }
 
 const makeCard = (item) => {
-    const todoDiv = document.querySelector('.todos');
+    const todoSection = document.querySelector('.todoSection');
+    const todoDiv = todoSection.firstElementChild;
 
     const divCard = document.createElement('div');
     divCard.className = 'div-card';
@@ -61,7 +62,8 @@ const makeCard = (item) => {
 }
 
 const removeCard = (item) => {
-    const todoDiv = document.querySelector('.todos');
+    const todoSection = document.querySelector('.todoSection');
+    const todoDiv = todoSection.firstElementChild;
     todoDiv.removeChild(item);
 }
 
