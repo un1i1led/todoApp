@@ -17,7 +17,11 @@ cancel.addEventListener('click', () => {
 })
 
 makeTodoBtn.addEventListener('click', function () {
-    makeTodoItem();
+    if (document.querySelector('#task-name').value == ""){
+        return;
+    } else {
+        makeTodoItem();
+    }
 })
 
 document.querySelector('.projects').addEventListener('click', function () {
@@ -31,5 +35,6 @@ document.querySelector('#inbox-p').addEventListener('click', function() {
     currentDiv.remove();
     todoSection.insertBefore(todosInbox, todoSection.firstChild);
 })
+
 
 
