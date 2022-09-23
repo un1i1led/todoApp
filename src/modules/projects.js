@@ -59,27 +59,76 @@ class HashTable {
 }
 
 const ht = new HashTable();
+const projects = new Array(0);
+
+const Project = (title) => {
+    let projectArray = new Array();
+
+    const addTodo = todo => {
+        projectArray.push(todo);
+    }
+
+    const removeTodo = todo => {
+        projectArray = projectArray.filter(data => data.itemId != todo.itemId);
+    }
+
+    const printArray = () => {
+        console.log(projectArray);
+    }
+
+    return {
+        title,
+        addTodo,
+        removeTodo,
+        printArray
+    }
+}
+
+let currentProject;
+
+const updateStorage = () => {
+    localStorage.setItem('projects', JSON.stringify(projects));
+}
+
+const loadProjects = () => {
+    let lcProject = localStorage.getItem('projects')
+    let parsed = JSON.parse(lcProject);
+    parsed.forEach((element) => {
+        createProject(element.title);
+    })
+}
 
 const createProject = (name) => {
+    let project = Project(name);
+    projects.push(project);
+    updateStorage();
+    console.log(projects);
+
+    makeProjectSideBar(project);
+}
+
+const makeProjectSideBar = (project) => {
     const sdbarGroup3 = document.querySelector('.sdbar-gp-3');
 
-    const projectDiv = document.createElement('div');
-    projectDiv.className = 'project-div';
-    
+    const sdDiv = document.createElement('div');
+    sdDiv.className = 'project-div';
+
     const projectName = document.createElement('p');
-    projectName.textContent = name;
-    projectName.className = `project-name ${name}`;
+    projectName.textContent = project.title;
+    projectName.className = 'project-name';
 
-    projectDiv.appendChild(projectName);
-    sdbarGroup3.appendChild(projectDiv);
+    sdDiv.appendChild(projectName);
+    sdbarGroup3.appendChild(sdDiv);
 
-    makeProjectDiv(name);
+    makeProjectDiv(project.title);
 
-    projectDiv.addEventListener('click', function() {
+    sdDiv.addEventListener('click', () => {
         const todoSection = document.querySelector('.todoSection');
         const currentDiv = todoSection.firstElementChild;
+        currentProject = project;
+        project.printArray();
         currentDiv.remove();
-        todoSection.insertBefore(ht.get(name), todoSection.firstChild);
+        todoSection.insertBefore(ht.get(project.title), todoSection.firstChild);
     })
 }
 
@@ -90,5 +139,8 @@ const makeProjectDiv = (name) => {
 }
 
 export {
-    createProject
+    createProject,
+    projects,
+    currentProject,
+    loadProjects
 }
