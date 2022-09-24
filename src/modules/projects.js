@@ -1,3 +1,5 @@
+import { loadTodo } from './UI';
+
 class HashTable {
     constructor() {
         this.table = new Array(127);
@@ -78,6 +80,7 @@ const Project = (title) => {
 
     return {
         title,
+        projectArray,
         addTodo,
         removeTodo,
         printArray
@@ -93,9 +96,18 @@ const updateStorage = () => {
 const loadProjects = () => {
     let lcProject = localStorage.getItem('projects')
     let parsed = JSON.parse(lcProject);
-    parsed.forEach((element) => {
-        createProject(element.title);
-    })
+    if (parsed != null) {
+        for (let i = 0; i < parsed.length; i++) {
+            createJSONProject(parsed[i]);
+            projects.push(parsed[i]);
+        }
+        console.log(parsed.length);
+        console.log(parsed[0].projectArray);
+    }
+}
+
+const createJSONProject = (project) => {
+    makeProjectSideBar(project);
 }
 
 const createProject = (name) => {
@@ -126,7 +138,8 @@ const makeProjectSideBar = (project) => {
         const todoSection = document.querySelector('.todoSection');
         const currentDiv = todoSection.firstElementChild;
         currentProject = project;
-        project.printArray();
+        // project.printArray();
+        console.log(project.projectArray);
         currentDiv.remove();
         todoSection.insertBefore(ht.get(project.title), todoSection.firstChild);
     })
@@ -142,5 +155,6 @@ export {
     createProject,
     projects,
     currentProject,
+    updateStorage,
     loadProjects
 }
