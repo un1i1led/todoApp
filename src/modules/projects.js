@@ -62,6 +62,7 @@ class HashTable {
 
 const ht = new HashTable();
 const projects = new Array(0);
+const projectDivs = new Array(0);
 
 const Project = (title) => {
     let projectArray = new Array();
@@ -71,7 +72,11 @@ const Project = (title) => {
     }
 
     const removeTodo = todo => {
-        projectArray = projectArray.filter(data => data.itemId != todo.itemId);
+        for (let i = 0; i < projectArray.length; i++) {
+            if (projectArray[i].itemId == todo.itemId) {
+                projectArray.splice(i, 1);
+            }
+        }
     }
 
     const printArray = () => {
@@ -93,16 +98,25 @@ const updateStorage = () => {
     localStorage.setItem('projects', JSON.stringify(projects));
 }
 
+const updateProjectDiv = () => {
+    localStorage.setItem('projectDivs', JSON.stringify(projectDivs));
+}
+
 const loadProjects = () => {
     let lcProject = localStorage.getItem('projects')
     let parsed = JSON.parse(lcProject);
     if (parsed != null) {
         for (let i = 0; i < parsed.length; i++) {
-            createJSONProject(parsed[i]);
-            projects.push(parsed[i]);
+            const rebuiltProject = Project(parsed[i].title);
+            console.log(parsed[i].projectArray);
+            for (let z = 0; z < parsed[i].projectArray.length; z++) {
+                rebuiltProject.projectArray.push(parsed[i].projectArray[z]);
+            }
+            console.log(rebuiltProject.projectArray);
+            createJSONProject(rebuiltProject);
+            console.log(rebuiltProject.title);
+            projects.push(rebuiltProject);
         }
-        console.log(parsed.length);
-        console.log(parsed[0].projectArray);
     }
 }
 
