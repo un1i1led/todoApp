@@ -1,19 +1,22 @@
 import { createItem } from './todoItem';
 import Icon from '../img/circle.png';
-import { isThisWeek, format, differenceInDays, isTomorrow, isToday, 
+import { isThisWeek, format, isTomorrow, isToday, 
     getDay, addDays, isThisYear } from 'date-fns';
-import { da } from 'date-fns/locale';
+import { projects, currentProject, updateStorage, ht } from './projects';
 
 const makeTodoItem = () => {
     const taskName = document.getElementById('task-name');
     const description = document.getElementById('desc-area');
     const date = document.getElementById('due-date-input');
 
-    const formatDate = format(new Date(date.value), 'MM/dd/yyyy');
-    const datez = new Date(formatDate);
-    const dateFinal = addDays(datez, 1);
-    
-    const dateValue = dateMaker(dateFinal, format(new Date(dateFinal), 'MM/dd/yyyy'));
+    let dateValue = "";
+
+    if (date.value != "") {
+        const formatDate = format(new Date(date.value), 'MM/dd/yyyy');
+        const datez = new Date(formatDate);
+        const dateFinal = addDays(datez, 1);
+        dateValue = dateMaker(dateFinal);
+    } 
 
     const radioButtons = document.querySelectorAll('input[name="priority"]');
     let prioritySelected;
@@ -25,6 +28,8 @@ const makeTodoItem = () => {
     }
 
     const item = createItem(taskName.value, description.value, dateValue, prioritySelected);
+    currentProject.addTodo(item);
+    updateStorage();
     makeCard(item);
 
     taskName.value = "";
@@ -33,18 +38,17 @@ const makeTodoItem = () => {
     
 }
 
-const makeCard = (item) => {
-    const todoSection = document.querySelector('.todoSection');
-    const todoDiv = todoSection.firstElementChild;
-
+const loadTodo = (item, contentDiv) => {
+    const todoDiv = ht.get(contentDiv);
     const divCard = document.createElement('div');
+    divCard.id = item.itemId;
     divCard.className = 'div-card';
 
     const closeImage = new Image();
     closeImage.src = Icon;
     closeImage.className = 'icon';
     closeImage.addEventListener('click', function (){
-        removeCard(divCard);
+        removeCard(divCard, item);
     })
 
     const taskName = document.createElement('h3');
@@ -70,42 +74,79 @@ const makeCard = (item) => {
     todoDiv.appendChild(divCard);
 }
 
-const removeCard = (item) => {
+const makeCard = (item) => {
     const todoSection = document.querySelector('.todoSection');
     const todoDiv = todoSection.firstElementChild;
-    todoDiv.removeChild(item);
+
+    const divCard = document.createElement('div');
+    divCard.id = item.itemId;
+    divCard.className = 'div-card';
+
+    const closeImage = new Image();
+    closeImage.src = Icon;
+    closeImage.className = 'icon';
+    closeImage.addEventListener('click', function (){
+        removeCard(divCard, item);
+    })
+
+    const taskName = document.createElement('h3');
+    taskName.className = '.task-name-h3';
+    taskName.textContent = item.title;
+
+    const topBar = document.createElement('div');
+    topBar.className = 'todo-top-bar';
+
+    const taskDesc = document.createElement('p');
+    taskDesc.className = 'task-desc-p';
+    taskDesc.textContent = item.description;
+
+    const taskDate = document.createElement('p');
+    taskDate.className = '.task-date-p';
+    taskDate.textContent = item.dueDate;
+
+    topBar.appendChild(closeImage);
+    topBar.appendChild(taskName);
+    divCard.appendChild(topBar);
+    divCard.appendChild(taskDesc);
+    divCard.appendChild(taskDate);
+    todoDiv.appendChild(divCard);
 }
 
-const dateMaker = (date, formatted) => {
-    const currentDate = new Date();
-    const difference = differenceInDays(date, currentDate);
-    
+const removeCard = (itemDiv, itemObj) => {
+    const todoSection = document.querySelector('.todoSection');
+    const todoDiv = todoSection.firstElementChild;
+    currentProject.removeTodo(itemObj);
+    updateStorage();
+    todoDiv.removeChild(itemDiv);
+}
+
+const dateMaker = (date) => {
     if (isToday(date)){
-        return 'Due: Today';
+        return 'Today';
     } else if (isTomorrow(date)){
-        return 'Due: Tomorrow';
+        return 'Tomorrow';
     } else {
         return dayOfWeek(date, format);
     }
 }
 
-const dayOfWeek = (date, formatted) => {
+const dayOfWeek = (date) => {
     if (isThisWeek(date)) {
         switch (getDay(date)) {
             case 0:
-                return 'Due: Sunday';
+                return 'Sunday';
             case 1:
-                return 'Due: Monday';
+                return 'Monday';
             case 2:
-                return 'Due: Tuesday';
+                return 'Tuesday';
             case 3:
-                return 'Due: Wednesday';
+                return 'Wednesday';
             case 4:
-                return 'Due: Thursday';
+                return 'Thursday';
             case 5:
-                return 'Due: Friday';
+                return 'Friday';
             case 6:
-                return 'Due: Saturday';
+                return 'Saturday';
             default:
                 console.log('something')
         }
@@ -121,6 +162,7 @@ const dayOfWeek = (date, formatted) => {
 }
 
 export {
-    makeTodoItem
+    makeTodoItem,
+    loadTodo
 }
 
