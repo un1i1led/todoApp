@@ -62,7 +62,6 @@ class HashTable {
 
 const ht = new HashTable();
 const projects = new Array(0);
-const projectDivs = new Array(0);
 
 const Project = (title) => {
     let projectArray = new Array();
@@ -98,23 +97,19 @@ const updateStorage = () => {
     localStorage.setItem('projects', JSON.stringify(projects));
 }
 
-const updateProjectDiv = () => {
-    localStorage.setItem('projectDivs', JSON.stringify(projectDivs));
-}
-
 const loadProjects = () => {
     let lcProject = localStorage.getItem('projects')
     let parsed = JSON.parse(lcProject);
     if (parsed != null) {
         for (let i = 0; i < parsed.length; i++) {
             const rebuiltProject = Project(parsed[i].title);
-            console.log(parsed[i].projectArray);
             for (let z = 0; z < parsed[i].projectArray.length; z++) {
                 rebuiltProject.projectArray.push(parsed[i].projectArray[z]);
             }
-            console.log(rebuiltProject.projectArray);
             createJSONProject(rebuiltProject);
-            console.log(rebuiltProject.title);
+            for (let x = 0; x < parsed[i].projectArray.length; x++) {
+                loadTodo(parsed[i].projectArray[x], parsed[i].title);
+            }
             projects.push(rebuiltProject);
         }
     }
@@ -152,8 +147,7 @@ const makeProjectSideBar = (project) => {
         const todoSection = document.querySelector('.todoSection');
         const currentDiv = todoSection.firstElementChild;
         currentProject = project;
-        // project.printArray();
-        console.log(project.projectArray);
+        document.querySelector('#page-name-h2').textContent = currentProject.title;
         currentDiv.remove();
         todoSection.insertBefore(ht.get(project.title), todoSection.firstChild);
     })
@@ -170,5 +164,6 @@ export {
     projects,
     currentProject,
     updateStorage,
-    loadProjects
+    loadProjects,
+    ht
 }
