@@ -1,8 +1,10 @@
 body {
     display: grid;
-    grid-template-rows: 0.5fr 7fr;
+    grid-template-rows: 0.5fr 8fr;
     height: 100vh;
     margin: 0;
+    background-color: #232020;
+    color: white;
 }
 
 .main {
@@ -13,12 +15,24 @@ body {
 .nav {
     display: grid;
     grid-template-columns: 1fr 3fr 0.5fr;
+    background-color: #2a2727;
+    border-bottom: 1px solid black;
+    color: #f5ecff;
 }
 
 .sidebar {
     display: flex;
     flex-direction: column;
     gap: 30px;
+    color: white;
+    background-color: #2a2727;
+    font-weight: 100;
+    font-family: 'Noto Sans Mono', sans-serif;
+    font-size: 20px;
+}
+
+.bolder {
+    font-weight: 400;
 }
 
 .sdbar-gp-1 {
@@ -26,19 +40,33 @@ body {
     flex-direction: column;
 }
 
-.inbox-sdbar > p::before {
-    content: url(../src/img/icon.png);
-    position: relative;
-    top: 5.5px;
+.sdbar-gp-1 > *,
+.sdbar-gp-2 > *,
+.sdbar-gp-3 > * {
+    margin-left: 20px;
+}
+
+.background {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    position: absolute;
+    top: 0;
+    justify-content: center;
+    align-items: center;
 }
 
 .form-popup {
-    display: none;
-    position: fixed;
-    bottom: 0;
-    right: 15px;
-    border: 3px solid #f1f1f1;
-    z-index: 9;
+    width: 500px;
+    background-color: #2a2727;
+    border-radius: 5px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Noto Sans Mono', sans-serif;
+    align-items: center;
+    color: white;
 }
 
 .form-container {
@@ -46,7 +74,37 @@ body {
     padding: 10px;
     background-color: white;
     display: flex;
+    background-color: #2a2727;
     flex-direction: column;
+}
+
+.form-container > h2 {
+    margin-bottom: 10px;
+}
+
+.form-container input[type="text"],
+.form-container input[type="date"] {
+    height: 30px;
+    background-color: #232020;
+    color: white;
+    border: none;
+    margin-bottom: 10px;
+}
+
+.form-container input[type="radio"] {
+    height: 15px;
+    width: 15px;
+}
+
+textarea {
+    background-color: #232020;
+    color: white;
+    border: none;
+    margin-bottom: 10px;
+}
+
+*:focus {
+    outline: 0px none transparent;
 }
 
 .low-div {
@@ -64,11 +122,103 @@ body {
 
 .div-card {
     display: flex;
-    flex-direction: column;
+    width: 400px;
+    margin-bottom: 30px;
 }
 
-.todo-top-bar {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+.div-card, .add-todo, .page-name {
+    margin-left: 50px;
 }
+
+#page-name-h2 {
+    font-family: 'Noto Sans Mono', sans-serif;
+    font-weight: 400;
+}
+
+.task-name-h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.info-section {
+    margin-left: 10px;
+}
+
+#add-todo-btn,
+#add-form-btn,
+#cancel-btn {
+  align-items: center;
+  background-clip: padding-box;
+  background-color: #1ff53c;
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  min-height: 3rem;
+  padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+  position: relative;
+  text-decoration: none;
+  transition: all 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  width: auto;
+}
+
+#add-todo-btn,
+#add-todo-btn:focus {
+  background-color: #31f04a;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+}
+
+#add-todo-btn:hover {
+  transform: translateY(-1px);
+}
+
+#add-todo-btn:active {
+  background-color: #04ee24;
+  box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+  transform: translateY(0);
+}
+
+header {
+    font-family: 'Noto Sans Mono', sans-serif;
+    font-size: 30px;
+    padding-left: 20px;
+}
+
+p {
+    margin: 0;
+}
+
+.add-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+
+#cancel-btn {
+    background-color: #232020;
+}
+
+#cancel-btn:hover {
+    background-color: #131111;
+}
+
+#add-form-btn {
+    background-color: #1ff53c;
+}
+
+#add-form-btn:hover {
+    background-color: #1bca32;
+} 
