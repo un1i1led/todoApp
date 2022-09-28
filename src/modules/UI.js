@@ -2,7 +2,7 @@ import { createItem } from './todoItem';
 import Icon from '../img/circle.png';
 import { isThisWeek, format, isTomorrow, isToday, 
     getDay, addDays, isThisYear } from 'date-fns';
-import { projects, currentProject, updateStorage, ht } from './projects';
+import { projects, currentProject, updateStorage, ht, updateInbox } from './projects';
 
 const makeTodoItem = () => {
     const taskName = document.getElementById('task-name');
@@ -52,25 +52,29 @@ const loadTodo = (item, contentDiv) => {
     })
 
     const taskName = document.createElement('h3');
-    taskName.className = '.task-name-h3';
+    taskName.className = 'task-name-h3';
     taskName.textContent = item.title;
 
     const topBar = document.createElement('div');
     topBar.className = 'todo-top-bar';
+
+    const infoSection = document.createElement('div');
+    infoSection.className = 'info-section';
 
     const taskDesc = document.createElement('p');
     taskDesc.className = 'task-desc-p';
     taskDesc.textContent = item.description;
 
     const taskDate = document.createElement('p');
-    taskDate.className = '.task-date-p';
+    taskDate.className = 'task-date-p';
     taskDate.textContent = item.dueDate;
 
     topBar.appendChild(closeImage);
-    topBar.appendChild(taskName);
+    infoSection.appendChild(taskName);
     divCard.appendChild(topBar);
-    divCard.appendChild(taskDesc);
-    divCard.appendChild(taskDate);
+    infoSection.appendChild(taskDesc);
+    infoSection.appendChild(taskDate);
+    divCard.appendChild(infoSection);
     todoDiv.appendChild(divCard);
 }
 
@@ -90,11 +94,14 @@ const makeCard = (item) => {
     })
 
     const taskName = document.createElement('h3');
-    taskName.className = '.task-name-h3';
+    taskName.className = 'task-name-h3';
     taskName.textContent = item.title;
 
     const topBar = document.createElement('div');
     topBar.className = 'todo-top-bar';
+
+    const infoSection = document.createElement('div');
+    infoSection.className = 'info-section';
 
     const taskDesc = document.createElement('p');
     taskDesc.className = 'task-desc-p';
@@ -105,10 +112,11 @@ const makeCard = (item) => {
     taskDate.textContent = item.dueDate;
 
     topBar.appendChild(closeImage);
-    topBar.appendChild(taskName);
+    infoSection.appendChild(taskName);
     divCard.appendChild(topBar);
-    divCard.appendChild(taskDesc);
-    divCard.appendChild(taskDate);
+    infoSection.appendChild(taskDesc);
+    infoSection.appendChild(taskDate);
+    divCard.appendChild(infoSection);
     todoDiv.appendChild(divCard);
 }
 
