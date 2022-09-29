@@ -138,7 +138,14 @@ const makeProjectSideBar = (project) => {
     projectName.textContent = project.title;
     projectName.className = 'project-name';
 
+    const removeProjectDiv = document.createElement('div');
+    const removeP = document.createElement('p');
+    removeP.textContent = 'X';
+    removeP.className = 'removeProjectP';
+    removeProjectDiv.appendChild(removeP);
+
     sdDiv.appendChild(projectName);
+    sdDiv.appendChild(removeProjectDiv);
     sdbarGroup3.appendChild(sdDiv);
 
     makeProjectDiv(project.title);
@@ -151,12 +158,26 @@ const makeProjectSideBar = (project) => {
         currentDiv.remove();
         todoSection.insertBefore(ht.get(project.title), todoSection.firstChild);
     })
+
+    removeP.addEventListener('click', () => {
+        removeProject(project);
+        sdbarGroup3.removeChild(sdDiv);
+    })
 }
 
 const makeProjectDiv = (name) => {
     const contentDiv = document.createElement('div');
     contentDiv.className = `todos-${name}`;
     ht.set(name, contentDiv);
+}
+
+const removeProject = (Project) => {
+    for (let i = 0; i < projects.length; i++) {
+        if (projects[i].title == Project.title) {
+            projects.splice(i, 1);
+        }
+    }
+    updateStorage();
 }
 
 export {
