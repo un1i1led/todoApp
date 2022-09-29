@@ -15,9 +15,9 @@ addBtn.addEventListener('click', () => {
         form.style.display = 'flex';
     } else {
         const name = window.prompt("Enter name of project: ");
-        if (name != null) {
+        if (name) {
         createProject(name);
-    }
+        }
     }
 })
 
@@ -39,7 +39,7 @@ document.querySelector('h2').addEventListener('click', () => {
 
 document.querySelector('.projects').addEventListener('click', function () {
     const name = window.prompt("Enter name of project: ");
-    if (name != null) {
+    if (name) {
         createProject(name);
     }
 })
