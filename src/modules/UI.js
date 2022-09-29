@@ -1,8 +1,8 @@
 import { createItem } from './todoItem';
 import Icon from '../img/circle.png';
 import { isThisWeek, format, isTomorrow, isToday, 
-    getDay, addDays, isThisYear } from 'date-fns';
-import { projects, currentProject, updateStorage, ht, updateInbox } from './projects';
+    getDay, addDays, isThisYear, isPast } from 'date-fns';
+import { currentProject, updateStorage, ht } from './projects';
 
 const makeTodoItem = () => {
     const taskName = document.getElementById('task-name');
@@ -15,7 +15,8 @@ const makeTodoItem = () => {
         const formatDate = format(new Date(date.value), 'MM/dd/yyyy');
         const datez = new Date(formatDate);
         const dateFinal = addDays(datez, 1);
-        dateValue = dateMaker(dateFinal);
+        // dateValue = dateMaker(dateFinal);
+        dateValue = dateFinal;
     } 
 
     const radioButtons = document.querySelectorAll('input[name="priority"]');
@@ -35,7 +36,8 @@ const makeTodoItem = () => {
     taskName.value = "";
     description.value = "";
     date.value = "";
-    
+    const background = document.querySelector('.background');
+    background.style.display = 'none';
 }
 
 const loadTodo = (item, contentDiv) => {
@@ -61,13 +63,28 @@ const loadTodo = (item, contentDiv) => {
     const infoSection = document.createElement('div');
     infoSection.className = 'info-section';
 
+    if (item.priority == 'high') {
+        infoSection.style.borderLeft = '2px solid red';
+    } else if (item.priority == 'medium') {
+        infoSection.style.borderLeft = '2px solid orange';
+    } else if (item.priority == 'low') {
+        infoSection.style.borderLeft = '2px solid green';
+    }
+
     const taskDesc = document.createElement('p');
     taskDesc.className = 'task-desc-p';
     taskDesc.textContent = item.description;
 
     const taskDate = document.createElement('p');
     taskDate.className = 'task-date-p';
-    taskDate.textContent = item.dueDate;
+
+    if (item.dueDate) {
+        const formatDate = format(new Date(item.dueDate), 'MM/dd/yyyy');
+        const datez = new Date(formatDate);
+        taskDate.textContent = dateMaker(datez);
+    } else {
+        taskDate.textContent = item.dueDate;
+    }
 
     topBar.appendChild(closeImage);
     infoSection.appendChild(taskName);
@@ -103,13 +120,28 @@ const makeCard = (item) => {
     const infoSection = document.createElement('div');
     infoSection.className = 'info-section';
 
+    if (item.priority == 'high') {
+        infoSection.style.borderLeft = '2px solid red';
+    } else if (item.priority == 'medium') {
+        infoSection.style.borderLeft = '2px solid orange';
+    } else if (item.priority == 'low') {
+        infoSection.style.borderLeft = '2px solid green';
+    }
+
     const taskDesc = document.createElement('p');
     taskDesc.className = 'task-desc-p';
     taskDesc.textContent = item.description;
 
     const taskDate = document.createElement('p');
     taskDate.className = '.task-date-p';
-    taskDate.textContent = item.dueDate;
+    
+    if (item.dueDate) {
+        const formatDate = format(new Date(item.dueDate), 'MM/dd/yyyy');
+        const datez = new Date(formatDate);
+        taskDate.textContent = dateMaker(datez);
+    } else {
+        taskDate.textContent = item.dueDate;
+    }
 
     topBar.appendChild(closeImage);
     infoSection.appendChild(taskName);
@@ -139,6 +171,11 @@ const dateMaker = (date) => {
 }
 
 const dayOfWeek = (date) => {
+    if (isPast(date)) {
+        const newFormat = format(new Date(date), 'MMM dd yyyy');
+        return `${newFormat}`;
+    }
+
     if (isThisWeek(date)) {
         switch (getDay(date)) {
             case 0:
