@@ -3,27 +3,37 @@ import { createProject, loadProjects, projects, loadInbox, currentProject } from
 
 const addBtn = document.querySelector('#add-todo-btn');
 const cancel = document.querySelector('#cancel-btn');
-const form = document.querySelector('.background');
+const background = document.querySelector('.background');
+const pBackground = document.querySelector('.pBackground');
 const makeTodoBtn = document.getElementById('add-form-btn');
-const todosInbox = document.querySelector('.todos-inbox');
+const addProjectBtn = document.querySelector('#project-add');
+const cancelProject = document.querySelector('#project-cancel');
 const pageName = document.querySelector('#page-name-h2');
 
 loadProjects();
 
 addBtn.addEventListener('click', () => {
     if (pageName.textContent != 'Add or open a project') {
-        form.style.display = 'flex';
+        background.style.display = 'flex';
     } else {
-        const name = window.prompt("Enter name of project: ");
-        if (name) {
-        createProject(name);
-        }
+        projectNamer();
     }
 })
 
-cancel.addEventListener('click', () => {
-    form.style.display = "none";
+addProjectBtn.addEventListener('click', () => {
+    const value = document.getElementById('project-name-input');
+    createProject(value.value);
+    value.value = '';
+    projectNamer();
 })
+
+cancel.addEventListener('click', () => {
+    todoNamer();
+})
+
+cancelProject.addEventListener('click', () => {
+    projectNamer();
+});
 
 makeTodoBtn.addEventListener('click', function () {
     if (document.querySelector('#task-name').value == ""){
@@ -44,6 +54,21 @@ document.querySelector('.projects').addEventListener('click', function () {
     }
 })
 
+const projectNamer = () => {
+    if (pBackground.style.display == 'flex') {
+        pBackground.style.display = 'none';
+    } else {
+        pBackground.style.display = 'flex';
+    }
+}
+
+const todoNamer = () => {
+    if (background.style.display == 'flex') {
+        background.style.display = none;
+    } else {
+        background.style.display = 'flex';
+    }
+}
 
 
 
