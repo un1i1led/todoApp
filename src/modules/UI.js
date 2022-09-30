@@ -3,19 +3,35 @@ import Icon from '../img/circle.png';
 import { isThisWeek, format, isTomorrow, isToday, 
     getDay, addDays, isThisYear, isPast } from 'date-fns';
 import { currentProject, updateStorage, ht } from './projects';
+import { todoNamer } from '../index';
+
+const taskName = document.getElementById('task-name');
+const description = document.getElementById('desc-area');
+const date = document.getElementById('due-date-input');
+
+let edit = {
+    editing: true,
+    taskName: '',
+    taskDesc: '',
+    taskDate: '',
+    infoSec: ''
+}
+
+let currentEdit;
+
+const clearInputs = () => {
+    taskName.value = '';
+    description.value = '';
+    date.value = '';
+}
 
 const makeTodoItem = () => {
-    const taskName = document.getElementById('task-name');
-    const description = document.getElementById('desc-area');
-    const date = document.getElementById('due-date-input');
-
     let dateValue = "";
 
     if (date.value != "") {
         const formatDate = format(new Date(date.value), 'MM/dd/yyyy');
         const datez = new Date(formatDate);
         const dateFinal = addDays(datez, 1);
-        // dateValue = dateMaker(dateFinal);
         dateValue = dateFinal;
     } 
 
@@ -62,6 +78,14 @@ const loadTodo = (item, contentDiv) => {
 
     const infoSection = document.createElement('div');
     infoSection.className = 'info-section';
+
+    infoSection.addEventListener('click', () => {
+        showEditTodo(item);
+        edit.taskName = taskName;
+        edit.taskDesc = taskDesc;
+        edit.taskDate = taskDate;
+        edit.infoSec = infoSection;
+    })
 
     if (item.priority == 'high') {
         infoSection.style.borderLeft = '2px solid red';
@@ -119,6 +143,10 @@ const makeCard = (item) => {
 
     const infoSection = document.createElement('div');
     infoSection.className = 'info-section';
+
+    infoSection.addEventListener('click', () => {
+        showEditTodo(item);
+    })
 
     if (item.priority == 'high') {
         infoSection.style.borderLeft = '2px solid red';
@@ -206,8 +234,64 @@ const dayOfWeek = (date) => {
     }
 }
 
+const showEditTodo = (item) => {
+    edit.editing = true;
+    taskName.value = item.title;
+    description.value = item.description;
+    date.value = item.dueDate.slice(0, 10);
+    
+    const radioButtons = document.querySelectorAll('input[name="priority"]');
+    for (const radio of radioButtons) {
+        if (radio.value == item.priority) {
+            radio.checked = true;
+        }
+    }
+
+    currentEdit = item;
+    todoNamer();
+
+}
+
+const editTodo = () => {
+    let dateValue = "";
+
+    if (date.value != "") {
+        const formatDate = format(new Date(date.value), 'MM/dd/yyyy');
+        const datez = new Date(formatDate);
+        const dateFinal = addDays(datez, 1);
+        dateValue = dateFinal;
+    } 
+
+    const radioButtons = document.querySelectorAll('input[name="priority"]');
+    let prioritySelected;
+    for (const radio of radioButtons) {
+        if (radio.checked) {
+            prioritySelected = radio.value;
+            break;
+        }
+    }
+
+    const newItem = createItem(taskName.value, description.value, dateValue, prioritySelected);
+    newItem.itemId = currentEdit.itemId;
+    currentProject.editItem(currentEdit, newItem);
+    updateStorage();
+    edit.taskName.textContent = taskName.value;
+    edit.taskDesc.textContent = description.value;
+    if (newItem.dueDate) {
+        const formatDate = format(new Date(newItem.dueDate), 'MM/dd/yyyy');
+        const datez = new Date(formatDate);
+        edit.taskDate.textContent = dateMaker(datez);
+    } else {
+        edit.taskDate.textContent = newItem.dueDate;
+    }
+}
+
 export {
     makeTodoItem,
-    loadTodo
+    loadTodo,
+    edit,
+    editTodo,
+    currentEdit,
+    clearInputs
 }
 

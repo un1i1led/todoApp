@@ -70,6 +70,14 @@ const Project = (title) => {
         projectArray.push(todo);
     }
 
+    const editItem = (todo, newTodo) => {
+        for (let i = 0; i < projectArray.length; i++) {
+            if (projectArray[i].itemId == todo.itemId) {
+                projectArray.splice(i, 1, newTodo);
+            }
+        }
+    }
+
     const removeTodo = todo => {
         for (let i = 0; i < projectArray.length; i++) {
             if (projectArray[i].itemId == todo.itemId) {
@@ -87,6 +95,7 @@ const Project = (title) => {
         projectArray,
         addTodo,
         removeTodo,
+        editItem,
         printArray
     }
 }
