@@ -150,11 +150,13 @@ const makeProjectSideBar = (project) => {
 
     makeProjectDiv(project.title);
 
-    sdDiv.addEventListener('click', () => {
+    const pageName = document.querySelector('#page-name-h2');
+
+    projectName.addEventListener('click', () => {
         const todoSection = document.querySelector('.todoSection');
         const currentDiv = todoSection.firstElementChild;
         currentProject = project;
-        document.querySelector('#page-name-h2').textContent = currentProject.title;
+        pageName.textContent = currentProject.title;
         currentDiv.remove();
         todoSection.insertBefore(ht.get(project.title), todoSection.firstChild);
     })
@@ -162,6 +164,7 @@ const makeProjectSideBar = (project) => {
     removeP.addEventListener('click', () => {
         removeProject(project);
         sdbarGroup3.removeChild(sdDiv);
+        pageName.textContent = 'Add or open a project';
     })
 }
 
