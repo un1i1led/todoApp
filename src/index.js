@@ -1,5 +1,5 @@
 import { makeTodoItem } from '../src/modules/UI';
-import { createProject, loadProjects, projects, loadInbox, currentProject } from '../src/modules/projects';
+import { createProject, loadProjects, projects } from '../src/modules/projects';
 
 const addBtn = document.querySelector('#add-todo-btn');
 const cancel = document.querySelector('#cancel-btn');
