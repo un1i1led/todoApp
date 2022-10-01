@@ -297,3 +297,7 @@ p {
 #project-add:hover {
     background-color: #1bca32;
 } 
+
+.task-desc-p {
+    color: gray;
+}
