@@ -239,7 +239,7 @@ const showEditTodo = (item) => {
     taskName.value = item.title;
     description.value = item.description;
     date.value = item.dueDate.slice(0, 10);
-    
+
     const radioButtons = document.querySelectorAll('input[name="priority"]');
     for (const radio of radioButtons) {
         if (radio.value == item.priority) {

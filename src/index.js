@@ -12,6 +12,7 @@ const pageName = document.querySelector('#page-name-h2');
 const value = document.getElementById('project-name-input');
 
 loadProjects();
+edit.editing = false;
 
 addBtn.addEventListener('click', () => {
     if (pageName.textContent != 'Add or open a project') {
@@ -32,6 +33,13 @@ addProjectBtn.addEventListener('click', () => {
 cancel.addEventListener('click', () => {
     todoNamer();
     clearInputs();
+    if (edit.editing == true) {
+        edit.editing = false;
+        edit.taskName = '';
+        edit.taskDesc = '';
+        edit.taskDate = '';
+        edit.infoSec = '';
+    }
 })
 
 cancelProject.addEventListener('click', () => {
